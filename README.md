@@ -81,15 +81,6 @@ default (see "Escalation defaults") instead of blocking on stdin.
 | Subject-type + per-column decisions, escalation re-decide | `gemini-3.1-flash-lite` |
 | Retrieval embeddings | `gemini-embedding-001` |
 
-Both are reached through a plain OpenAI-compatible HTTP client
-(`ontology_agent/llm.py`) with a strict JSON-schema `response_format`, so any
-OpenAI-compatible provider works (`.env.example` documents OpenRouter as an
-alternative). `gemini-3.1-flash-lite` was chosen empirically: it is what completes
-a full run within this project's free-tier quota. See "A note on model choice" in
-`WRITEUP.md` for the trial and error behind that, including a calibration finding
-about this model's self-reported confidence that changed how the deterministic
-gates work.
-
 ## Setup
 
 1. Python 3.11+. No venv, no install step, and no `pyproject.toml`/`requirements.txt`
