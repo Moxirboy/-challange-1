@@ -177,38 +177,3 @@ Five stages, run per column (stages 1–2 run once per CSV):
    human round-trip per CSV — answered from `--answers`, interactive stdin, or a
    documented default (table above) — then re-decided with the answer as
    authoritative context before the patch is assembled.
-
-### Scaling story
-
-The prompt for any single column is **O(k)**, not O(ontology size): retrieval
-always returns a fixed top-k (8) candidate cards regardless of how many concepts
-exist in the ontology, because concepts are pre-compiled into an inverted BM25
-index plus embedding vectors rather than being stuffed into the prompt wholesale.
-Adding the 10,000th concept to the ontology costs one more card to index (cheap,
-incremental — `ConceptIndex.rebuild()` is called once per CSV, after each CSV's
-patch is applied) and does not change the size or shape of any future prompt. The
-BM25 index is a plain inverted index; the embedding vectors are stored flat today
-(cosine over a `list[float]` per card) but the interface (`embed(texts) ->
-list[vector]`, `_cosine(a, b)`) is exactly what an ANN index (e.g. faiss/hnswlib)
-would sit behind — swapping in one is a retrieval-layer change, not a design
-change (see "what's next" in `WRITEUP.md`).
-
-## Tests
-
-`tests/` is set up for pytest but empty in this submission — the offline `--no-llm`
-path was the primary correctness check used during development (deterministic,
-free, and exercises every layer except the LLM's own judgment). Given more time,
-the highest-value tests would be gate unit tests (feed synthetic `Decision`/
-`Candidate` objects into `decide._run_gates` and assert escalation behavior at the
-threshold boundaries) and a golden-file regression test over the `--no-llm` output
-on the fixtures — see `EVAL_PLAN.md` for the broader evaluation strategy this
-would feed into.
-
-## Known limitations
-
-See `WRITEUP.md` for the honest version. Briefly: escalation thresholds are
-hand-tuned on 3 fixture CSVs with no held-out validation; `--no-llm` is a much
-weaker heuristic than the LLM path; sample-row projection only replays the first
-few rows per CSV; nothing persists across runs except the `.cache/` LLM/embedding
-cache; and it's a single-model submission — decision quality visibly varies by
-model choice (documented in `WRITEUP.md`).
