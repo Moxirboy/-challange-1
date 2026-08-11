@@ -53,9 +53,7 @@ Zero runtime dependencies — Python 3.11+ stdlib only (`pytest` only if you run
 tests).
 
 ```bash
-# Offline, no network, no API key — exercises every deterministic layer
-# (profiling, prefilter, hybrid retrieval falls back to lexical-only, gates,
-# patch, report) via a documented heuristic decider instead of an LLM.
+# Offline: no network, no API key, heuristic decider instead of an LLM.
 python3 -m ontology_agent.run \
   --ontology fixtures/seed_ontology.json \
   --csv fixtures/1_vendors.csv fixtures/2_product_catalog.csv fixtures/3_crm_export.csv \
@@ -71,12 +69,10 @@ python3 -m ontology_agent.run \
   --out out/ --approve auto --answers answers.json
 ```
 
-The command above is exactly what produced the committed `out/` directory (Task 2
-of this brief). `answers.json` holds one genuine, previously-collected human answer
-(`csv1.q2`, about `employee_count` vs. `Organization.size`) that replays
-automatically; any *other* escalation the run raises and that isn't in
-`answers.json` falls back to a documented per-gate default (see "Escalation
-defaults" below) rather than blocking on stdin.
+This is the exact command that produced the committed `out/`. `answers.json`
+replays one real human answer (`csv1.q2`, `employee_count` vs.
+`Organization.size`); any other escalation falls back to a documented per-gate
+default (see "Escalation defaults") instead of blocking on stdin.
 
 ## Model(s) used
 
