@@ -1,15 +1,38 @@
-# Ontology Retrieval & Expansion Harness
+# Challenge
 
-Take-home submission: an agent harness that ingests CSV files against an existing
-("seed") ontology and produces **proposed patches + mapping reports** — it never
-mutates the ontology silently. It reuses existing concepts wherever a column
-genuinely matches one, adds only genuinely-missing concepts, excludes export
-artifacts (surrogate keys, sync metadata, empty columns), and escalates to a human
-whenever the retrieval evidence is genuinely ambiguous.
-
-`DESIGN.md` is the authoritative implementation spec. `EVAL_PLAN.md` is the eval
-plan deliverable. `WRITEUP.md` is the ≤1-page design write-up. This file is the
-"how do I run it and where's everything" reference.
+```
+.
+├── README.md              ← you are here: how to run it, and where everything is
+├── DESIGN.md              ← authoritative implementation spec
+├── EVAL_PLAN.md           ← eval plan (deliverable 5)
+├── WRITEUP.md             ← ≤1-page design write-up (deliverable 4)
+├── answers.json           ← recorded human answers, replayed into escalations
+├── .env.example           ← copy to .env and fill in CHALLENGE_API_KEY
+│
+├── fixtures/              ← inputs, as given
+│   ├── seed_ontology.json
+│   ├── 1_vendors.csv
+│   ├── 2_product_catalog.csv
+│   └── 3_crm_export.csv
+│
+├── ontology_agent/        ← the harness (deliverable 1) — stdlib only
+│   ├── run.py             ← CLI entrypoint / per-CSV orchestration
+│   ├── models.py          ← typed ops, dispositions, report shapes
+│   ├── ontology.py        ← in-memory ontology + patch application
+│   ├── profiler.py        ← per-column datatype / uniqueness / null-rate / samples
+│   ├── retrieval.py       ← hybrid BM25 + embedding concept index
+│   ├── llm.py             ← provider client, caching, structured output
+│   ├── decide.py          ← deterministic gates over the LLM's proposal
+│   ├── escalate.py        ← batched human round-trips (stdin or answers file)
+│   ├── patch.py           ← patch assembly + validation
+│   └── report.py          ← mapping report (JSON + Markdown)
+│
+└── out/                   ← committed output of the live run (deliverables 2 & 3)
+    ├── <n>_<name>.patch.json / .report.json / .report.md   (×3 CSVs)
+    ├── final_ontology.json
+    ├── run_summary.json
+    └── transcript.md      ← full run, 4 escalation round-trips
+```
 
 ## What it is, in one paragraph
 
