@@ -34,17 +34,18 @@
     └── transcript.md      ← full run, 4 escalation round-trips
 ```
 
-## What it is, in one paragraph
+## What is it
 
-For each CSV, in order: profile every column (datatype, uniqueness, null rate,
-sample values), deterministically prefilter obvious export artifacts, retrieve the
-top-k most relevant ontology concepts per column via a hybrid BM25 + embedding
-index, ask an LLM to *propose* a disposition (reuse / new attribute / new
-relationship / exclude / escalate) for each column, then run that proposal through
-a table of **deterministic gates** that can override it — force an escalation, force
-a safer disposition, or downgrade an over-budget escalation back to the model's own
-best guess. Escalations are batched per CSV into one human round-trip. The result
-is a patch (ops), a mapping report (JSON + Markdown), and a full transcript.
+For each CSV in order, the harness profiles every column (datatype, uniqueness,
+null rate, sample values), filters out obvious export artifacts, and retrieves the
+most relevant ontology concepts for that column from a hybrid BM25 plus embedding
+index. An LLM then *proposes* a disposition for each column (reuse, new attribute,
+new relationship, exclude, or escalate), and a table of **deterministic gates**
+reviews that proposal and can override it by forcing an escalation, forcing a safer
+disposition, or falling back to the model's own best guess once the escalation
+budget is spent. Escalations are batched into one human round trip per CSV, and the
+run produces a patch of typed ops, a mapping report in JSON and Markdown, and a
+full transcript.
 
 ## Quickstart
 
