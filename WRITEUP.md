@@ -24,11 +24,7 @@ off the vacuous `Person.data` (demoted 0.25× in retrieval, not just told not to
 reuse it) — the LLM never even sees it as a live candidate.
 
 **The calibration finding.** This is the strongest result in the project.
-`gemini-3.1-flash-lite` — the model this submission actually ships with, because
-it's the only model/key combination that completed a full run inside the free-tier
-quota after five API keys and four other models (`gemini-3.6-flash`,
-`gemini-2.5-flash`, `gemini-2.5-flash-lite`, `gemini-3.5-flash`) were exhausted
-trying — reports
+`gemini-3.1-flash-lite`, the model this submission ships with, reports
 0.90–1.00 confidence on nearly every column, correct or not. Two of the original
 gates were confidence-gated (`near_duplicate` kept a "new" proposal if confidence
 ≥ 0.85; `low_confidence` fired below 0.55), and both were effectively dead: a run
