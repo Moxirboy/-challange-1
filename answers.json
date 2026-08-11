@@ -1,0 +1,3 @@
+{
+  "csv1.q2": "Do NOT reuse Organization.size. `size` is a different concept: a coarse size band (e.g. 'SMB', 'Enterprise'), which is why it is typed string. `employee_count` is an exact headcount, so add a new attribute `employee_count` of datatype integer on Organization, aligned with https://schema.org/numberOfEmployees. Leave Organization.size unchanged, but flag it as an ontology issue because its description 'Size of the organization' is too vague to distinguish it from headcount."
+}

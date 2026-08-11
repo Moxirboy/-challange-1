@@ -1,0 +1,841 @@
+{
+  "csv": "1_vendors.csv",
+  "row_count": 8,
+  "subject_type": {
+    "name": "Organization",
+    "reused": true,
+    "rationale": "The data describes business entities with attributes like sector, employee count, and headquarters location, which aligns perfectly with the definition of an Organization.",
+    "confidence": 1.0
+  },
+  "columns": [
+    {
+      "column": "vendor",
+      "disposition": "reuse",
+      "target": "Organization.name",
+      "rationale": "The column contains the names of organizations, which directly maps to the primary display name attribute of the Organization entity.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.name",
+          "score": 0.7739,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6846,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.6907,
+          "signals": {
+            "bm25": 0.8195,
+            "embedding": 0.6348,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.6859,
+          "signals": {
+            "bm25": 0.7628,
+            "embedding": 0.6725,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.6837,
+          "signals": {
+            "bm25": 0.8008,
+            "embedding": 0.6336,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.headquartered_in",
+          "score": 0.5594,
+          "signals": {
+            "bm25": 0.8894,
+            "embedding": 0.5641,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.founded_year",
+          "score": 0.5359,
+          "signals": {
+            "bm25": 0.8008,
+            "embedding": 0.5829,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.5004,
+          "signals": {
+            "bm25": 0.6789,
+            "embedding": 0.6006,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.city",
+          "score": 0.3972,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6181,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "homepage_url",
+      "disposition": "reuse",
+      "target": "Organization.website",
+      "rationale": "The column contains URLs representing the homepage of the organization, which is a direct match for the existing Organization.website attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.website",
+          "score": 0.8927,
+          "signals": {
+            "bm25": 0.9994,
+            "embedding": 0.7324,
+            "datatype_prior": 1.0,
+            "shape_prior": 1.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.5409,
+          "signals": {
+            "bm25": 0.741,
+            "embedding": 0.6475,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4129,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6571,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4086,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6465,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.4033,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6331,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.country",
+          "score": 0.3983,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6207,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.city",
+          "score": 0.3951,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6127,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.name",
+          "score": 0.3847,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5867,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "established",
+      "disposition": "reuse",
+      "target": "Organization.founded_year",
+      "rationale": "The column 'established' contains years representing when the organization was founded, which is a direct semantic match for the existing Organization.founded_year attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.founded_year",
+          "score": 0.773,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6825,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.5213,
+          "signals": {
+            "bm25": 0.7415,
+            "embedding": 0.5981,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.longitude",
+          "score": 0.3151,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5626,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.latitude",
+          "score": 0.3117,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5543,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place",
+          "score": 0.2501,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.569,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.2368,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.592,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.country",
+          "score": 0.2356,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.589,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.headquartered_in",
+          "score": 0.2337,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5279,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "sector",
+      "disposition": "reuse",
+      "target": "Organization.industry",
+      "rationale": "The column 'sector' contains values describing the industry or business sector of the organization, which is a direct semantic match for the existing Organization.industry attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.industry",
+          "score": 0.7807,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7019,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.4306,
+          "signals": {
+            "bm25": 0.4644,
+            "embedding": 0.6139,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4181,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6703,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.4095,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6488,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.402,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6301,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.country",
+          "score": 0.3991,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6228,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.city",
+          "score": 0.3953,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6132,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.name",
+          "score": 0.3827,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5818,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "hq_city",
+      "disposition": "reuse",
+      "target": "Place.city",
+      "rationale": "The column represents the city where the organization is headquartered. While Organization.headquartered_in exists as a candidate, it is often modeled as a relationship to a Place entity rather than a simple string attribute. Creating a new relationship to the Place entity allows for better data integration and querying. [near_duplicate gate: escalating -- proposal was 'new_relationship' but Place.city is a near-duplicate (score 0.78 >= 0.62); objective retrieval evidence outranks self-reported confidence (0.90)] [escalation csv1.q1 (default): answered reuse:Place.city]",
+      "confidence": 0.9,
+      "decided_by": "rule",
+      "gates_fired": [
+        "near_duplicate"
+      ],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Place.city",
+          "score": 0.7842,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7105,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.headquartered_in",
+          "score": 0.5893,
+          "signals": {
+            "bm25": 0.8544,
+            "embedding": 0.6693,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place",
+          "score": 0.5163,
+          "signals": {
+            "bm25": 0.6855,
+            "embedding": 0.6347,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4181,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6702,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.country",
+          "score": 0.4175,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6686,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4073,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6434,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.name",
+          "score": 0.4056,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6389,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.4042,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6356,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "hq_country",
+      "disposition": "reuse",
+      "target": "Organization.headquartered_in",
+      "rationale": "The column provides the country of the organization's headquarters. While the previous column (hq_city) was escalated to a relationship, the existing Organization.headquartered_in concept is the standard way to represent the location of an organization's headquarters. Reusing this concept is preferred over creating a new relationship, as it aligns with the existing ontology structure for headquarters location.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Place.country",
+          "score": 0.789,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7226,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.headquartered_in",
+          "score": 0.5909,
+          "signals": {
+            "bm25": 0.8544,
+            "embedding": 0.6735,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place",
+          "score": 0.5205,
+          "signals": {
+            "bm25": 0.6855,
+            "embedding": 0.6453,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4186,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6716,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.city",
+          "score": 0.4128,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6571,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4073,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6432,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.4061,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6402,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.4048,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6371,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "employee_count",
+      "disposition": "new_attribute",
+      "target": null,
+      "rationale": "The column 'employee_count' provides a numerical count of employees, which is a direct semantic match for the existing 'Organization.size' attribute. [escalation csv1.q2 (file): free-text answer incorporated via LLM re-decide: \"Do NOT reuse Organization.size. `size` is a different concept: a coarse size band (e.g. 'SMB', 'Enterprise'), which is why it is typed string. `employee_count` is an exact headcount, so add a new attribute `employee_count` of datatype integer on Organization, aligned with https://schema.org/numberOfEmployees. Leave Organization.size unchanged, but flag it as an ontology issue because its description 'Size of the organization' is too vague to distinguish it from headcount.\"]",
+      "confidence": 1.0,
+      "decided_by": "human",
+      "gates_fired": [
+        "datatype_conflict"
+      ],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.size",
+          "score": 0.6139,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6596,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.4389,
+          "signals": {
+            "bm25": 0.5134,
+            "embedding": 0.5919,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.founded_year",
+          "score": 0.4143,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6608,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place.latitude",
+          "score": 0.3172,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5681,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.longitude",
+          "score": 0.313,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5576,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.2539,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6348,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.headquartered_in",
+          "score": 0.2475,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5626,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place",
+          "score": 0.2471,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5616,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "id": "csv1.q1",
+      "question": "Column 'hq_city' (sample values: ['Cleveland', 'Hamburg', 'Austin', 'Osaka', 'Denver']) -- the harness proposed 'new_relationship' (headquartered_in). Is that right, or should it map to one of the candidates below instead?",
+      "answer": "reuse:Place.city",
+      "source": "default",
+      "resulting_decision": "reuse -> Place.city"
+    },
+    {
+      "id": "csv1.q2",
+      "question": "Column 'employee_count' (sample values: ['540', '1230', '88', '2100', '410']) -- the harness proposed 'reuse' -> Organization.size. Is that right, or should it map to one of the candidates below instead?",
+      "answer": "Do NOT reuse Organization.size. `size` is a different concept: a coarse size band (e.g. 'SMB', 'Enterprise'), which is why it is typed string. `employee_count` is an exact headcount, so add a new attribute `employee_count` of datatype integer on Organization, aligned with https://schema.org/numberOfEmployees. Leave Organization.size unchanged, but flag it as an ontology issue because its description 'Size of the organization' is too vague to distinguish it from headcount.",
+      "source": "file",
+      "resulting_decision": "new_attribute"
+    }
+  ],
+  "ontology_issues": [
+    {
+      "op": "flag_ontology_issue",
+      "target": "Organization / Company",
+      "issue": "'Organization' and 'Company' look like near-duplicate types (name_similarity=1.00, attribute_overlap=0.60, score=0.80 >= 0.5); canonical type is 'Organization' (richer: more attributes/relationships and/or descriptions) -- retrieval resolves 'Company' concepts onto it; consider deleting 'Company' from the ontology.",
+      "severity": "warning"
+    },
+    {
+      "op": "flag_ontology_issue",
+      "target": "Person.data",
+      "issue": "attribute 'Person.data' is vacuous (generic name or placeholder description); demote, don't reuse",
+      "severity": "warning"
+    },
+    {
+      "op": "flag_ontology_issue",
+      "target": "Organization.size",
+      "issue": "attribute 'Organization.size' name implies a quantity but its datatype is 'string'; likely should be integer/number",
+      "severity": "warning"
+    }
+  ],
+  "sample_rows": [
+    {
+      "row": 1,
+      "entities": [
+        {
+          "id": "Organization:1",
+          "type": "Organization",
+          "attributes": {
+            "name": "Acme Industrial Group",
+            "website": "https://acmeindustrial.com",
+            "founded_year": "1987",
+            "industry": "Manufacturing",
+            "employee_count": "540"
+          },
+          "relationships": {
+            "headquartered_in": "Place:Cleveland"
+          }
+        },
+        {
+          "id": "Place:Cleveland",
+          "type": "Place",
+          "attributes": {
+            "city": "Cleveland"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Place:USA",
+          "type": "Place",
+          "attributes": {
+            "name": "USA"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "row": 2,
+      "entities": [
+        {
+          "id": "Organization:2",
+          "type": "Organization",
+          "attributes": {
+            "name": "Nordwind Logistics",
+            "website": "https://nordwind-logistics.de",
+            "founded_year": "2004",
+            "industry": "Logistics",
+            "employee_count": "1230"
+          },
+          "relationships": {
+            "headquartered_in": "Place:Hamburg"
+          }
+        },
+        {
+          "id": "Place:Hamburg",
+          "type": "Place",
+          "attributes": {
+            "city": "Hamburg"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Place:Germany",
+          "type": "Place",
+          "attributes": {
+            "name": "Germany"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "row": 3,
+      "entities": [
+        {
+          "id": "Organization:3",
+          "type": "Organization",
+          "attributes": {
+            "name": "Bluepeak Software",
+            "website": "https://bluepeak.io",
+            "founded_year": "2016",
+            "industry": "Software",
+            "employee_count": "88"
+          },
+          "relationships": {
+            "headquartered_in": "Place:Austin"
+          }
+        },
+        {
+          "id": "Place:Austin",
+          "type": "Place",
+          "attributes": {
+            "city": "Austin"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Place:USA",
+          "type": "Place",
+          "attributes": {
+            "name": "USA"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": []
+    }
+  ],
+  "stats": {
+    "columns": 7,
+    "reused": 6,
+    "new": 1,
+    "excluded": 0,
+    "escalated": 2,
+    "llm_calls": 9,
+    "cached_calls": 9,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  }
+}

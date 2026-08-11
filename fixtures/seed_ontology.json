@@ -1,0 +1,93 @@
+{
+  "description": "Seed ontology for Challenge 1. Each type has attributes (literal-valued, with a datatype) and relationships (entity-valued, with a range type).",
+  "types": [
+    {
+      "name": "Organization",
+      "description": "A company, non-profit, or other formal organization.",
+      "attributes": [
+        { "name": "name", "datatype": "string", "required": true, "description": "Primary display name." },
+        { "name": "website", "datatype": "string", "description": "Canonical website URL." },
+        { "name": "founded_year", "datatype": "integer", "description": "Year the organization was founded." },
+        { "name": "industry", "datatype": "string", "description": "Primary industry, free text." },
+        { "name": "size", "datatype": "string", "description": "Size of the organization." }
+      ],
+      "relationships": [
+        { "name": "headquartered_in", "range": "Place", "description": "Primary headquarters location." }
+      ]
+    },
+    {
+      "name": "Company",
+      "description": "A company.",
+      "attributes": [
+        { "name": "name", "datatype": "string" },
+        { "name": "url", "datatype": "string" },
+        { "name": "year_started", "datatype": "integer" }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "Person",
+      "description": "An individual person.",
+      "attributes": [
+        { "name": "full_name", "datatype": "string", "required": true, "description": "Full display name." },
+        { "name": "email", "datatype": "string", "description": "Primary email address." },
+        { "name": "title", "datatype": "string", "description": "Job title." },
+        { "name": "data", "datatype": "string", "description": "Misc data." }
+      ],
+      "relationships": [
+        { "name": "works_at", "range": "Organization", "description": "Employer." }
+      ]
+    },
+    {
+      "name": "Product",
+      "description": "A physical or digital product sold by an organization.",
+      "attributes": [
+        { "name": "name", "datatype": "string", "required": true, "description": "Product name." },
+        { "name": "sku", "datatype": "string", "description": "Stock-keeping-unit identifier." },
+        { "name": "price_usd", "datatype": "number", "description": "Current list price in USD." },
+        { "name": "launched_on", "datatype": "date", "description": "Public launch date." }
+      ],
+      "relationships": [
+        { "name": "made_by", "range": "Organization", "description": "Manufacturer." }
+      ]
+    },
+    {
+      "name": "Place",
+      "description": "A geographic place.",
+      "attributes": [
+        { "name": "name", "datatype": "string", "required": true, "description": "Place name." },
+        { "name": "city", "datatype": "string" },
+        { "name": "country", "datatype": "string" },
+        { "name": "latitude", "datatype": "number" },
+        { "name": "longitude", "datatype": "number" }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "Event",
+      "description": "A scheduled public or private event.",
+      "attributes": [
+        { "name": "name", "datatype": "string", "required": true },
+        { "name": "starts_on", "datatype": "date" },
+        { "name": "ends_on", "datatype": "date" }
+      ],
+      "relationships": [
+        { "name": "held_at", "range": "Place", "description": "Venue or host location." },
+        { "name": "hosted_by", "range": "Organization", "description": "Organizing entity." }
+      ]
+    },
+    {
+      "name": "JobPosting",
+      "description": "An open role advertised by an organization.",
+      "attributes": [
+        { "name": "title", "datatype": "string", "required": true, "description": "Role title as advertised." },
+        { "name": "posted_on", "datatype": "date" },
+        { "name": "salary_range", "datatype": "string", "description": "e.g. \"$120k-$150k\"." }
+      ],
+      "relationships": [
+        { "name": "posted_by", "range": "Organization", "description": "Hiring organization." },
+        { "name": "located_in", "range": "Place", "description": "Where the role is based." }
+      ]
+    }
+  ]
+}

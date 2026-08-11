@@ -1,0 +1,768 @@
+{
+  "csv": "3_crm_export.csv",
+  "row_count": 6,
+  "subject_type": {
+    "name": "Person",
+    "reused": true,
+    "rationale": "The rows represent individual contacts within a CRM system, identified by 'contact_name' and 'email', which aligns best with the 'Person' entity type.",
+    "confidence": 0.95
+  },
+  "columns": [
+    {
+      "column": "_id",
+      "disposition": "exclude",
+      "target": null,
+      "rationale": "prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)",
+      "confidence": 1.0,
+      "decided_by": "rule",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": []
+    },
+    {
+      "column": "contact_name",
+      "disposition": "reuse",
+      "target": "Person.full_name",
+      "rationale": "The column 'contact_name' contains full names of individuals, which directly maps to the existing 'Person.full_name' attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Person.full_name",
+          "score": 0.7391,
+          "signals": {
+            "bm25": 0.9173,
+            "embedding": 0.6703,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.7116,
+          "signals": {
+            "bm25": 0.8808,
+            "embedding": 0.6333,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person",
+          "score": 0.4852,
+          "signals": {
+            "bm25": 0.5853,
+            "embedding": 0.6445,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Place.name",
+          "score": 0.4549,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6456,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.name",
+          "score": 0.4519,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6327,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Event.name",
+          "score": 0.422,
+          "signals": {
+            "bm25": 0.8566,
+            "embedding": 0.6339,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person.title",
+          "score": 0.4094,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6485,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.406,
+          "signals": {
+            "bm25": 0.4115,
+            "embedding": 0.5986,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "company",
+      "disposition": "reuse",
+      "target": "Organization.name",
+      "rationale": "The column contains the names of organizations where the person is employed. Mapping this to a relationship 'works_at' pointing to an 'Organization' entity is the standard approach for representing employment in this ontology. [near_duplicate gate: escalating -- proposal was 'new_relationship' but Organization.name is a near-duplicate (score 0.80 >= 0.62); objective retrieval evidence outranks self-reported confidence (0.95)] [escalation csv3.q1 (default): answered reuse:Organization.name]",
+      "confidence": 0.95,
+      "decided_by": "rule",
+      "gates_fired": [
+        "near_duplicate"
+      ],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.name",
+          "score": 0.8025,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7562,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.7089,
+          "signals": {
+            "bm25": 0.7994,
+            "embedding": 0.6977,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.7024,
+          "signals": {
+            "bm25": 0.8181,
+            "embedding": 0.6651,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.6922,
+          "signals": {
+            "bm25": 0.7612,
+            "embedding": 0.6895,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person.works_at",
+          "score": 0.5996,
+          "signals": {
+            "bm25": 0.941,
+            "embedding": 0.6195,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.headquartered_in",
+          "score": 0.5695,
+          "signals": {
+            "bm25": 0.8885,
+            "embedding": 0.59,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.founded_year",
+          "score": 0.5599,
+          "signals": {
+            "bm25": 0.7994,
+            "embedding": 0.644,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.employee_count",
+          "score": 0.5497,
+          "signals": {
+            "bm25": 0.7994,
+            "embedding": 0.6185,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "email",
+      "disposition": "reuse",
+      "target": "Person.email",
+      "rationale": "The column contains email addresses which directly map to the existing Person.email attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Person.email",
+          "score": 0.8925,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7312,
+            "datatype_prior": 1.0,
+            "shape_prior": 1.0
+          }
+        },
+        {
+          "id": "Person",
+          "score": 0.4909,
+          "signals": {
+            "bm25": 0.5853,
+            "embedding": 0.6589,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4135,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6587,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Person.title",
+          "score": 0.4095,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6487,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.4048,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.637,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Person.full_name",
+          "score": 0.4046,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6365,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4026,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6314,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.3913,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6031,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "status",
+      "disposition": "new_attribute",
+      "target": null,
+      "rationale": "The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.name",
+          "score": 0.4024,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6309,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.3994,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6236,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.3964,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.616,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person.title",
+          "score": 0.3957,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6142,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.3907,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6017,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Person.email",
+          "score": 0.3821,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5803,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person.full_name",
+          "score": 0.378,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.57,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.founded_year",
+          "score": 0.2551,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5815,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "date",
+      "disposition": "new_attribute",
+      "target": null,
+      "rationale": "The column 'date' represents a temporal attribute associated with the Person entity (likely a contact or interaction date). None of the existing candidates are appropriate as they belong to different types (Product, Event, JobPosting) or are unrelated to the Person subject type. A new attribute is required to capture this information.",
+      "confidence": 0.9,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Product.launched_on",
+          "score": 0.4516,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6316,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Event.starts_on",
+          "score": 0.4305,
+          "signals": {
+            "bm25": 0.8952,
+            "embedding": 0.6354,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Event.ends_on",
+          "score": 0.4288,
+          "signals": {
+            "bm25": 0.8952,
+            "embedding": 0.6282,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "JobPosting.posted_on",
+          "score": 0.4164,
+          "signals": {
+            "bm25": 0.831,
+            "embedding": 0.6326,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.2546,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5803,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.2526,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5753,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Person.full_name",
+          "score": 0.2521,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.574,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person.title",
+          "score": 0.2516,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5728,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "notes",
+      "disposition": "new_attribute",
+      "target": null,
+      "rationale": "The column contains free-text notes or comments regarding interactions with the person. None of the existing attributes in the Person type capture this unstructured information, so a new attribute is required.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.industry",
+          "score": 0.4129,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6571,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4059,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6397,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Person.title",
+          "score": 0.4017,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6294,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.4011,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6279,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.3906,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6014,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Person.email",
+          "score": 0.381,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5775,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Person.full_name",
+          "score": 0.3798,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5744,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.2622,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5991,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "updated_at",
+      "disposition": "exclude",
+      "target": null,
+      "rationale": "prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows",
+      "confidence": 1.0,
+      "decided_by": "rule",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": []
+    },
+    {
+      "column": "Unnamed: 8",
+      "disposition": "exclude",
+      "target": null,
+      "rationale": "prefilter[empty_column]: column 'Unnamed: 8' has no non-null values",
+      "confidence": 1.0,
+      "decided_by": "rule",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": []
+    }
+  ],
+  "escalations": [
+    {
+      "id": "csv3.q1",
+      "question": "Column 'company' (sample values: ['Acme Industrial Group', 'Sakura Foods K.K.', 'Bluepeak Software', 'Nordwind Logistics', 'Verde Textiles']) -- the harness proposed 'new_relationship' -> Person.works_at. Is that right, or should it map to one of the candidates below instead?",
+      "answer": "reuse:Organization.name",
+      "source": "default",
+      "resulting_decision": "reuse -> Organization.name"
+    }
+  ],
+  "ontology_issues": [],
+  "sample_rows": [
+    {
+      "row": 1,
+      "entities": [
+        {
+          "id": "Person:1",
+          "type": "Person",
+          "attributes": {
+            "full_name": "Dana Whitfield",
+            "email": "dana.w@acmeindustrial.com",
+            "status": "active",
+            "date": "2026-03-14",
+            "notes": "renewal call went well"
+          },
+          "relationships": {
+            "works_at": "Organization:Acme Industrial Group"
+          }
+        },
+        {
+          "id": "Organization:Acme Industrial Group",
+          "type": "Organization",
+          "attributes": {
+            "name": "Acme Industrial Group"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": [
+        {
+          "column": "_id",
+          "reason": "excluded: prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"
+        },
+        {
+          "column": "updated_at",
+          "reason": "excluded: prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"
+        },
+        {
+          "column": "Unnamed: 8",
+          "reason": "excluded: prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"
+        }
+      ]
+    },
+    {
+      "row": 2,
+      "entities": [
+        {
+          "id": "Person:2",
+          "type": "Person",
+          "attributes": {
+            "full_name": "Kenji Mori",
+            "email": "k.mori@sakurafoods.jp",
+            "status": "churned",
+            "date": "2025-11-02",
+            "notes": "moved to competitor"
+          },
+          "relationships": {
+            "works_at": "Organization:Sakura Foods K.K."
+          }
+        },
+        {
+          "id": "Organization:Sakura Foods K.K.",
+          "type": "Organization",
+          "attributes": {
+            "name": "Sakura Foods K.K."
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": [
+        {
+          "column": "_id",
+          "reason": "excluded: prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"
+        },
+        {
+          "column": "updated_at",
+          "reason": "excluded: prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"
+        },
+        {
+          "column": "Unnamed: 8",
+          "reason": "excluded: prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"
+        }
+      ]
+    },
+    {
+      "row": 3,
+      "entities": [
+        {
+          "id": "Person:3",
+          "type": "Person",
+          "attributes": {
+            "full_name": "Priya Natarajan",
+            "email": "priya@bluepeak.io",
+            "status": "prospect",
+            "date": "2026-06-21",
+            "notes": "met at ODSC booth"
+          },
+          "relationships": {
+            "works_at": "Organization:Bluepeak Software"
+          }
+        },
+        {
+          "id": "Organization:Bluepeak Software",
+          "type": "Organization",
+          "attributes": {
+            "name": "Bluepeak Software"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": [
+        {
+          "column": "_id",
+          "reason": "excluded: prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"
+        },
+        {
+          "column": "updated_at",
+          "reason": "excluded: prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"
+        },
+        {
+          "column": "Unnamed: 8",
+          "reason": "excluded: prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "columns": 9,
+    "reused": 3,
+    "new": 3,
+    "excluded": 3,
+    "escalated": 1,
+    "llm_calls": 24,
+    "cached_calls": 24,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  }
+}

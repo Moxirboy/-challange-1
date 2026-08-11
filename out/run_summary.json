@@ -1,0 +1,60 @@
+{
+  "csvs": [
+    {
+      "csv": "1_vendors.csv",
+      "stats": {
+        "columns": 7,
+        "reused": 6,
+        "new": 1,
+        "excluded": 0,
+        "escalated": 2,
+        "llm_calls": 9,
+        "cached_calls": 9,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    {
+      "csv": "2_product_catalog.csv",
+      "stats": {
+        "columns": 7,
+        "reused": 4,
+        "new": 3,
+        "excluded": 0,
+        "escalated": 1,
+        "llm_calls": 17,
+        "cached_calls": 17,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    },
+    {
+      "csv": "3_crm_export.csv",
+      "stats": {
+        "columns": 9,
+        "reused": 3,
+        "new": 3,
+        "excluded": 3,
+        "escalated": 1,
+        "llm_calls": 24,
+        "cached_calls": 24,
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      }
+    }
+  ],
+  "totals": {
+    "columns": 23,
+    "reused": 13,
+    "new": 7,
+    "excluded": 3,
+    "escalated": 4
+  },
+  "llm_usage": {
+    "calls": 24,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "cached_calls": 24
+  },
+  "wall_time_seconds": 0.425
+}

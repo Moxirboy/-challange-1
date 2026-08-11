@@ -1,0 +1,837 @@
+{
+  "csv": "2_product_catalog.csv",
+  "row_count": 7,
+  "subject_type": {
+    "name": "Product",
+    "reused": true,
+    "rationale": "The CSV contains information about items being sold, including product names, SKUs, manufacturers, and pricing, which aligns perfectly with the definition of a Product.",
+    "confidence": 1.0
+  },
+  "columns": [
+    {
+      "column": "product_name",
+      "disposition": "reuse",
+      "target": "Product.name",
+      "rationale": "The column contains the names of the products, which directly maps to the existing Product.name attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Product.name",
+          "score": 0.7899,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7248,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.sku",
+          "score": 0.5504,
+          "signals": {
+            "bm25": 0.397,
+            "embedding": 0.6536,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.5113,
+          "signals": {
+            "bm25": 0.3488,
+            "embedding": 0.5981,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product",
+          "score": 0.4886,
+          "signals": {
+            "bm25": 0.5582,
+            "embedding": 0.6768,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.launched_on",
+          "score": 0.4144,
+          "signals": {
+            "bm25": 0.4216,
+            "embedding": 0.6107,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4005,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6262,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.price_usd",
+          "score": 0.399,
+          "signals": {
+            "bm25": 0.3378,
+            "embedding": 0.6455,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.made_by",
+          "score": 0.3897,
+          "signals": {
+            "bm25": 0.3378,
+            "embedding": 0.6223,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "sku",
+      "disposition": "reuse",
+      "target": "Product.sku",
+      "rationale": "The column contains stock-keeping-unit identifiers, which directly matches the existing Product.sku attribute.",
+      "confidence": 1.0,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Product.sku",
+          "score": 0.7957,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7391,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.name",
+          "score": 0.4078,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6445,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4051,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6378,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.3959,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6147,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.3933,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6084,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.3915,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6037,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Product",
+          "score": 0.2806,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6453,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.price_usd",
+          "score": 0.2644,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6047,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "manufacturer",
+      "disposition": "reuse",
+      "target": "Product.made_by",
+      "rationale": "The column contains the names of organizations that manufacture the product. While Product.made_by exists, it is a relationship to an Organization. Creating a new relationship 'manufacturer' is more descriptive and aligns with the column header, while still correctly typing it as an Organization. [near_duplicate gate: escalating -- proposal was 'new_relationship' but Product.made_by is a near-duplicate (score 0.65 >= 0.62); objective retrieval evidence outranks self-reported confidence (0.90)] [escalation csv2.q1 (default): answered reuse:Product.made_by]",
+      "confidence": 0.9,
+      "decided_by": "rule",
+      "gates_fired": [
+        "near_duplicate"
+      ],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Product.made_by",
+          "score": 0.6472,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.6868,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4277,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6943,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4266,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6914,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.name",
+          "score": 0.415,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6624,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.4081,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6454,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.4077,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6442,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Product.sku",
+          "score": 0.4064,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6411,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.2713,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.622,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "msrp",
+      "disposition": "reuse",
+      "target": "Product.price_usd",
+      "rationale": "The column 'msrp' represents the Manufacturer's Suggested Retail Price, which is a standard price attribute for a product. Product.price_usd is the most appropriate existing concept for this numerical value.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Product.price_usd",
+          "score": 0.768,
+          "signals": {
+            "bm25": 0.9842,
+            "embedding": 0.6838,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.made_by",
+          "score": 0.595,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.5563,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product",
+          "score": 0.4281,
+          "signals": {
+            "bm25": 0.4718,
+            "embedding": 0.6012,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.founded_year",
+          "score": 0.3216,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5789,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.employee_count",
+          "score": 0.3157,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5643,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.2533,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.577,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.2358,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5895,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Product.name",
+          "score": 0.2357,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.5892,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "warranty_months",
+      "disposition": "new_attribute",
+      "target": null,
+      "rationale": "The column represents the duration of a product's warranty in months. None of the existing attributes in the Product ontology capture warranty information. Creating a new attribute is necessary to represent this specific product characteristic.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.founded_year",
+          "score": 0.4103,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6507,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.employee_count",
+          "score": 0.3985,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6212,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.price_usd",
+          "score": 0.3377,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6194,
+            "datatype_prior": 0.6,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.made_by",
+          "score": 0.2686,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6154,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product",
+          "score": 0.2672,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6118,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization",
+          "score": 0.2569,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.586,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Product.launched_on",
+          "score": 0.248,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6199,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.sku",
+          "score": 0.2476,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.619,
+            "datatype_prior": 0.0,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "distributor",
+      "disposition": "new_relationship",
+      "target": "distributor",
+      "rationale": "The column contains names of organizations that distribute the product. This is a relationship to an Organization. The value 'Direct' is a sentinel value indicating no external distributor, which should be handled at the data ingestion layer rather than creating an entity. As there is no existing 'distributor' relationship on Product, a new one is created.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Organization.name",
+          "score": 0.4079,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6448,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4048,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.637,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.3975,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6188,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.sku",
+          "score": 0.397,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6176,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.name",
+          "score": 0.3964,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6159,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.395,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6126,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Product.made_by",
+          "score": 0.269,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6162,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product",
+          "score": 0.2651,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6065,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "column": "country_of_origin",
+      "disposition": "new_relationship",
+      "target": null,
+      "rationale": "The column specifies the country where the product was manufactured or originated. While Place.country exists as a concept, it is not a relationship on the Product type. Creating a new relationship to the Place entity is the correct way to model this geographic association for a product.",
+      "confidence": 0.95,
+      "decided_by": "llm",
+      "gates_fired": [],
+      "escalated": false,
+      "downgraded_from_escalation": false,
+      "retrieval": [
+        {
+          "id": "Place.country",
+          "score": 0.4704,
+          "signals": {
+            "bm25": 1.0,
+            "embedding": 0.7101,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.name",
+          "score": 0.4094,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6486,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Product.name",
+          "score": 0.4038,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6344,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.industry",
+          "score": 0.4011,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6277,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.size",
+          "score": 0.3968,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6171,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Product.sku",
+          "score": 0.3958,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6146,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0
+          }
+        },
+        {
+          "id": "Organization.website",
+          "score": 0.3945,
+          "signals": {
+            "bm25": 0.0,
+            "embedding": 0.6113,
+            "datatype_prior": 1.0,
+            "shape_prior": 0.0,
+            "aliased_from_twin": 1.0
+          }
+        },
+        {
+          "id": "Place",
+          "score": 0.3105,
+          "signals": {
+            "bm25": 0.6863,
+            "embedding": 0.6372,
+            "datatype_prior": 0.15,
+            "shape_prior": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "escalations": [
+    {
+      "id": "csv2.q1",
+      "question": "Column 'manufacturer' (sample values: ['Acme Industrial Group', 'Helios Energy', 'Verde Textiles', 'Sakura Foods K.K.', 'Bluepeak Software']) -- the harness proposed 'new_relationship' (manufacturer). Is that right, or should it map to one of the candidates below instead?",
+      "answer": "reuse:Product.made_by",
+      "source": "default",
+      "resulting_decision": "reuse -> Product.made_by"
+    }
+  ],
+  "ontology_issues": [],
+  "sample_rows": [
+    {
+      "row": 1,
+      "entities": [
+        {
+          "id": "Product:1",
+          "type": "Product",
+          "attributes": {
+            "name": "Volt 9 Cordless Drill",
+            "sku": "VD-0091",
+            "price_usd": "129.99",
+            "warranty_period_months": "24"
+          },
+          "relationships": {
+            "made_by": "Organization:Acme Industrial Group",
+            "distributor": "Organization:Toolhaus GmbH",
+            "country_of_origin": "Place:USA"
+          }
+        },
+        {
+          "id": "Organization:Acme Industrial Group",
+          "type": "Organization",
+          "attributes": {
+            "name": "Acme Industrial Group"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Organization:Toolhaus GmbH",
+          "type": "Organization",
+          "attributes": {
+            "name": "Toolhaus GmbH"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Place:USA",
+          "type": "Place",
+          "attributes": {
+            "name": "USA"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "row": 2,
+      "entities": [
+        {
+          "id": "Product:2",
+          "type": "Product",
+          "attributes": {
+            "name": "Volt 9 Impact Driver",
+            "sku": "VD-0112",
+            "price_usd": "149.99",
+            "warranty_period_months": "24"
+          },
+          "relationships": {
+            "made_by": "Organization:Acme Industrial Group",
+            "distributor": "Organization:Toolhaus GmbH",
+            "country_of_origin": "Place:USA"
+          }
+        },
+        {
+          "id": "Organization:Acme Industrial Group",
+          "type": "Organization",
+          "attributes": {
+            "name": "Acme Industrial Group"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Organization:Toolhaus GmbH",
+          "type": "Organization",
+          "attributes": {
+            "name": "Toolhaus GmbH"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Place:USA",
+          "type": "Place",
+          "attributes": {
+            "name": "USA"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "row": 3,
+      "entities": [
+        {
+          "id": "Product:3",
+          "type": "Product",
+          "attributes": {
+            "name": "Aurora 400W Solar Panel",
+            "sku": "AU-4001",
+            "price_usd": "289.00",
+            "warranty_period_months": "120"
+          },
+          "relationships": {
+            "made_by": "Organization:Helios Energy",
+            "distributor": "Organization:SunGrid Distribution",
+            "country_of_origin": "Place:USA"
+          }
+        },
+        {
+          "id": "Organization:Helios Energy",
+          "type": "Organization",
+          "attributes": {
+            "name": "Helios Energy"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Organization:SunGrid Distribution",
+          "type": "Organization",
+          "attributes": {
+            "name": "SunGrid Distribution"
+          },
+          "relationships": {}
+        },
+        {
+          "id": "Place:USA",
+          "type": "Place",
+          "attributes": {
+            "name": "USA"
+          },
+          "relationships": {}
+        }
+      ],
+      "skipped": []
+    }
+  ],
+  "stats": {
+    "columns": 7,
+    "reused": 4,
+    "new": 3,
+    "excluded": 0,
+    "escalated": 1,
+    "llm_calls": 17,
+    "cached_calls": 17,
+    "prompt_tokens": 0,
+    "completion_tokens": 0
+  }
+}

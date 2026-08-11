@@ -1,0 +1,57 @@
+[
+  {
+    "op": "reuse",
+    "source_column": "product_name",
+    "target": "Product.name",
+    "rationale": "The column contains the names of the products, which directly maps to the existing Product.name attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "sku",
+    "target": "Product.sku",
+    "rationale": "The column contains stock-keeping-unit identifiers, which directly matches the existing Product.sku attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "manufacturer",
+    "target": "Product.made_by",
+    "rationale": "The column contains the names of organizations that manufacture the product. While Product.made_by exists, it is a relationship to an Organization. Creating a new relationship 'manufacturer' is more descriptive and aligns with the column header, while still correctly typing it as an Organization. [near_duplicate gate: escalating -- proposal was 'new_relationship' but Product.made_by is a near-duplicate (score 0.65 >= 0.62); objective retrieval evidence outranks self-reported confidence (0.90)] [escalation csv2.q1 (default): answered reuse:Product.made_by]",
+    "confidence": 0.9
+  },
+  {
+    "op": "reuse",
+    "source_column": "msrp",
+    "target": "Product.price_usd",
+    "rationale": "The column 'msrp' represents the Manufacturer's Suggested Retail Price, which is a standard price attribute for a product. Product.price_usd is the most appropriate existing concept for this numerical value.",
+    "confidence": 0.95
+  },
+  {
+    "op": "add_attribute",
+    "on_type": "Product",
+    "name": "warranty_period_months",
+    "datatype": "integer",
+    "rationale": "The column represents the duration of a product's warranty in months. None of the existing attributes in the Product ontology capture warranty information. Creating a new attribute is necessary to represent this specific product characteristic.",
+    "confidence": 0.95,
+    "source_column": "warranty_months"
+  },
+  {
+    "op": "add_relationship",
+    "on_type": "Product",
+    "name": "distributor",
+    "range": "Organization",
+    "rationale": "The column contains names of organizations that distribute the product. This is a relationship to an Organization. The value 'Direct' is a sentinel value indicating no external distributor, which should be handled at the data ingestion layer rather than creating an entity. As there is no existing 'distributor' relationship on Product, a new one is created.",
+    "confidence": 0.95,
+    "source_column": "distributor"
+  },
+  {
+    "op": "add_relationship",
+    "on_type": "Product",
+    "name": "country_of_origin",
+    "range": "Place",
+    "rationale": "The column specifies the country where the product was manufactured or originated. While Place.country exists as a concept, it is not a relationship on the Product type. Creating a new relationship to the Place entity is the correct way to model this geographic association for a product.",
+    "confidence": 0.95,
+    "source_column": "country_of_origin"
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "op": "exclude",
+    "source_column": "_id",
+    "rationale": "prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"
+  },
+  {
+    "op": "reuse",
+    "source_column": "contact_name",
+    "target": "Person.full_name",
+    "rationale": "The column 'contact_name' contains full names of individuals, which directly maps to the existing 'Person.full_name' attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "company",
+    "target": "Organization.name",
+    "rationale": "The column contains the names of organizations where the person is employed. Mapping this to a relationship 'works_at' pointing to an 'Organization' entity is the standard approach for representing employment in this ontology. [near_duplicate gate: escalating -- proposal was 'new_relationship' but Organization.name is a near-duplicate (score 0.80 >= 0.62); objective retrieval evidence outranks self-reported confidence (0.95)] [escalation csv3.q1 (default): answered reuse:Organization.name]",
+    "confidence": 0.95
+  },
+  {
+    "op": "reuse",
+    "source_column": "email",
+    "target": "Person.email",
+    "rationale": "The column contains email addresses which directly map to the existing Person.email attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "add_attribute",
+    "on_type": "Person",
+    "name": "status",
+    "datatype": "string",
+    "rationale": "The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required.",
+    "confidence": 0.95,
+    "source_column": "status"
+  },
+  {
+    "op": "add_attribute",
+    "on_type": "Person",
+    "name": "date",
+    "datatype": "date",
+    "rationale": "The column 'date' represents a temporal attribute associated with the Person entity (likely a contact or interaction date). None of the existing candidates are appropriate as they belong to different types (Product, Event, JobPosting) or are unrelated to the Person subject type. A new attribute is required to capture this information.",
+    "confidence": 0.9,
+    "source_column": "date"
+  },
+  {
+    "op": "add_attribute",
+    "on_type": "Person",
+    "name": "notes",
+    "datatype": "string",
+    "rationale": "The column contains free-text notes or comments regarding interactions with the person. None of the existing attributes in the Person type capture this unstructured information, so a new attribute is required.",
+    "confidence": 0.95,
+    "source_column": "notes"
+  },
+  {
+    "op": "exclude",
+    "source_column": "updated_at",
+    "rationale": "prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"
+  },
+  {
+    "op": "exclude",
+    "source_column": "Unnamed: 8",
+    "rationale": "prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"
+  }
+]

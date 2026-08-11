@@ -1,0 +1,72 @@
+[
+  {
+    "op": "flag_ontology_issue",
+    "target": "Organization / Company",
+    "issue": "'Organization' and 'Company' look like near-duplicate types (name_similarity=1.00, attribute_overlap=0.60, score=0.80 >= 0.5); canonical type is 'Organization' (richer: more attributes/relationships and/or descriptions) -- retrieval resolves 'Company' concepts onto it; consider deleting 'Company' from the ontology.",
+    "severity": "warning"
+  },
+  {
+    "op": "flag_ontology_issue",
+    "target": "Person.data",
+    "issue": "attribute 'Person.data' is vacuous (generic name or placeholder description); demote, don't reuse",
+    "severity": "warning"
+  },
+  {
+    "op": "flag_ontology_issue",
+    "target": "Organization.size",
+    "issue": "attribute 'Organization.size' name implies a quantity but its datatype is 'string'; likely should be integer/number",
+    "severity": "warning"
+  },
+  {
+    "op": "reuse",
+    "source_column": "vendor",
+    "target": "Organization.name",
+    "rationale": "The column contains the names of organizations, which directly maps to the primary display name attribute of the Organization entity.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "homepage_url",
+    "target": "Organization.website",
+    "rationale": "The column contains URLs representing the homepage of the organization, which is a direct match for the existing Organization.website attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "established",
+    "target": "Organization.founded_year",
+    "rationale": "The column 'established' contains years representing when the organization was founded, which is a direct semantic match for the existing Organization.founded_year attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "sector",
+    "target": "Organization.industry",
+    "rationale": "The column 'sector' contains values describing the industry or business sector of the organization, which is a direct semantic match for the existing Organization.industry attribute.",
+    "confidence": 1.0
+  },
+  {
+    "op": "reuse",
+    "source_column": "hq_city",
+    "target": "Place.city",
+    "rationale": "The column represents the city where the organization is headquartered. While Organization.headquartered_in exists as a candidate, it is often modeled as a relationship to a Place entity rather than a simple string attribute. Creating a new relationship to the Place entity allows for better data integration and querying. [near_duplicate gate: escalating -- proposal was 'new_relationship' but Place.city is a near-duplicate (score 0.78 >= 0.62); objective retrieval evidence outranks self-reported confidence (0.90)] [escalation csv1.q1 (default): answered reuse:Place.city]",
+    "confidence": 0.9
+  },
+  {
+    "op": "reuse",
+    "source_column": "hq_country",
+    "target": "Organization.headquartered_in",
+    "rationale": "The column provides the country of the organization's headquarters. While the previous column (hq_city) was escalated to a relationship, the existing Organization.headquartered_in concept is the standard way to represent the location of an organization's headquarters. Reusing this concept is preferred over creating a new relationship, as it aligns with the existing ontology structure for headquarters location.",
+    "confidence": 0.95
+  },
+  {
+    "op": "add_attribute",
+    "on_type": "Organization",
+    "name": "employee_count",
+    "datatype": "integer",
+    "rationale": "The column 'employee_count' provides a numerical count of employees, which is a direct semantic match for the existing 'Organization.size' attribute. [escalation csv1.q2 (file): free-text answer incorporated via LLM re-decide: \"Do NOT reuse Organization.size. `size` is a different concept: a coarse size band (e.g. 'SMB', 'Enterprise'), which is why it is typed string. `employee_count` is an exact headcount, so add a new attribute `employee_count` of datatype integer on Organization, aligned with https://schema.org/numberOfEmployees. Leave Organization.size unchanged, but flag it as an ontology issue because its description 'Size of the organization' is too vague to distinguish it from headcount.\"]",
+    "confidence": 1.0,
+    "aligned_with": "https://schema.org/numberOfEmployees",
+    "source_column": "employee_count"
+  }
+]
