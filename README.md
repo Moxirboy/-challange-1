@@ -193,18 +193,6 @@ list[vector]`, `_cosine(a, b)`) is exactly what an ANN index (e.g. faiss/hnswlib
 would sit behind — swapping in one is a retrieval-layer change, not a design
 change (see "what's next" in `WRITEUP.md`).
 
-### API cost note
-
-A full 3-CSV run makes **~24 LLM calls** (1 subject-type call per CSV + 1 decision
-call per non-prefiltered column + a few escalation re-decides) and **one embedding
-batch** (all concept cards, once, plus the handful of column queries not already
-identical to a cached card text). The committed `out/run_summary.json` reports the
-actual counts for this run: 24 calls total, 14 served from the on-disk cache
-(`.cache/`, gitignored) rather than the network, ~12.8K prompt tokens and ~1.6K
-completion tokens billed. On Google AI Studio's free tier this fits comfortably —
-that budget, not model capability, is why `gemini-3.1-flash-lite` was the model
-that actually finished a run (see `WRITEUP.md`).
-
 ## Tests
 
 `tests/` is set up for pytest but empty in this submission — the offline `--no-llm`
