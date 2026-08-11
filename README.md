@@ -76,19 +76,19 @@ default (see "Escalation defaults") instead of blocking on stdin.
 
 ## Model(s) used
 
-| Purpose | Model | Endpoint |
-|---|---|---|
-| Subject-type + per-column decisions, escalation re-decide | `gemini-3.1-flash-lite` | Google AI Studio's OpenAI-compatible endpoint (`/v1beta/openai/chat/completions`) |
-| Retrieval embeddings | `gemini-embedding-001` | same endpoint, `/v1beta/openai/embeddings` |
+| Purpose | Model |
+|---|---|
+| Subject-type + per-column decisions, escalation re-decide | `gemini-3.1-flash-lite` |
+| Retrieval embeddings | `gemini-embedding-001` |
 
-Both are reached through a plain OpenAI-compatible HTTP client (`ontology_agent/llm.py`)
-with a strict JSON-schema `response_format`, so any OpenAI-compatible endpoint works
-(OpenRouter is documented as an alternative in `.env.example`). `gemini-3.1-flash-lite`
-was chosen empirically: it is the model/key combination that actually completes a
-full run within this project's free-tier quota — see "A note on model choice" in
-`WRITEUP.md` for the (fairly extensive) trial-and-error behind that, including a
-genuine calibration finding about this model's self-reported confidence that changed
-how the deterministic gates work.
+Both are reached through a plain OpenAI-compatible HTTP client
+(`ontology_agent/llm.py`) with a strict JSON-schema `response_format`, so any
+OpenAI-compatible provider works (`.env.example` documents OpenRouter as an
+alternative). `gemini-3.1-flash-lite` was chosen empirically: it is what completes
+a full run within this project's free-tier quota. See "A note on model choice" in
+`WRITEUP.md` for the trial and error behind that, including a calibration finding
+about this model's self-reported confidence that changed how the deterministic
+gates work.
 
 ## Setup
 
