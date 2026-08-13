@@ -9,9 +9,9 @@
         "excluded": 0,
         "escalated": 2,
         "llm_calls": 9,
-        "cached_calls": 9,
-        "prompt_tokens": 0,
-        "completion_tokens": 0
+        "cached_calls": 7,
+        "prompt_tokens": 2965,
+        "completion_tokens": 305
       }
     },
     {
@@ -23,9 +23,9 @@
         "excluded": 0,
         "escalated": 1,
         "llm_calls": 17,
-        "cached_calls": 17,
-        "prompt_tokens": 0,
-        "completion_tokens": 0
+        "cached_calls": 15,
+        "prompt_tokens": 2965,
+        "completion_tokens": 305
       }
     },
     {
@@ -35,11 +35,11 @@
         "reused": 3,
         "new": 3,
         "excluded": 3,
-        "escalated": 1,
+        "escalated": 2,
         "llm_calls": 24,
-        "cached_calls": 24,
-        "prompt_tokens": 0,
-        "completion_tokens": 0
+        "cached_calls": 20,
+        "prompt_tokens": 5742,
+        "completion_tokens": 623
       }
     }
   ],
@@ -48,13 +48,13 @@
     "reused": 13,
     "new": 7,
     "excluded": 3,
-    "escalated": 4
+    "escalated": 5
   },
   "llm_usage": {
     "calls": 24,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "cached_calls": 24
+    "prompt_tokens": 5742,
+    "completion_tokens": 623,
+    "cached_calls": 20
   },
-  "wall_time_seconds": 0.425
+  "wall_time_seconds": 7.943
 }

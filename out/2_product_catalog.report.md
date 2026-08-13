@@ -144,6 +144,6 @@ Row count: 7
 - excluded: 0
 - escalated: 1
 - llm_calls: 17
-- cached_calls: 17
-- prompt_tokens: 0
-- completion_tokens: 0
+- cached_calls: 15
+- prompt_tokens: 2965
+- completion_tokens: 305

@@ -30,17 +30,17 @@
     "on_type": "Person",
     "name": "status",
     "datatype": "string",
-    "rationale": "The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required.",
+    "rationale": "The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required. [vacuous_source gate: column name 'status' carries no domain meaning on its own, and adding it as a new concept would put an unexplained field in the ontology] [escalation csv3.q2 (default): kept the harness's original proposal]",
     "confidence": 0.95,
     "source_column": "status"
   },
   {
     "op": "add_attribute",
     "on_type": "Person",
-    "name": "date",
+    "name": "last_contacted_on",
     "datatype": "date",
-    "rationale": "The column 'date' represents a temporal attribute associated with the Person entity (likely a contact or interaction date). None of the existing candidates are appropriate as they belong to different types (Product, Event, JobPosting) or are unrelated to the Person subject type. A new attribute is required to capture this information.",
-    "confidence": 0.9,
+    "rationale": "The column 'date' in a CRM export context typically represents the date of the last interaction or contact with the person. None of the provided candidates (Product launch, Event dates, Job posting date) are semantically appropriate for a Person entity. Therefore, a new attribute is required to capture this temporal data point. [downgraded_from_escalation: over the CSV's escalation budget]",
+    "confidence": 0.68,
     "source_column": "date"
   },
   {
@@ -48,7 +48,7 @@
     "on_type": "Person",
     "name": "notes",
     "datatype": "string",
-    "rationale": "The column contains free-text notes or comments regarding interactions with the person. None of the existing attributes in the Person type capture this unstructured information, so a new attribute is required.",
+    "rationale": "The column contains unstructured qualitative information about interactions or status updates regarding the person. None of the existing attributes in the Person ontology capture this general-purpose commentary field.",
     "confidence": 0.95,
     "source_column": "notes"
   },

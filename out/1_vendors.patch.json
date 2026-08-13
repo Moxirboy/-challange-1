@@ -56,15 +56,15 @@
     "op": "reuse",
     "source_column": "hq_country",
     "target": "Organization.headquartered_in",
-    "rationale": "The column provides the country of the organization's headquarters. While the previous column (hq_city) was escalated to a relationship, the existing Organization.headquartered_in concept is the standard way to represent the location of an organization's headquarters. Reusing this concept is preferred over creating a new relationship, as it aligns with the existing ontology structure for headquarters location.",
-    "confidence": 0.95
+    "rationale": "The column provides the country of the organization's headquarters. While the previous column (hq_city) was escalated to a relationship, the existing Organization.headquartered_in concept is the standard way to represent the location of an organization's headquarters. Reusing this concept is preferred over creating a new relationship, as it aligns with the existing ontology structure for headquarters location. [downgraded_from_escalation: over the CSV's escalation budget]",
+    "confidence": 0.76
   },
   {
     "op": "add_attribute",
     "on_type": "Organization",
     "name": "employee_count",
     "datatype": "integer",
-    "rationale": "The column 'employee_count' provides a numerical count of employees, which is a direct semantic match for the existing 'Organization.size' attribute. [escalation csv1.q2 (file): free-text answer incorporated via LLM re-decide: \"Do NOT reuse Organization.size. `size` is a different concept: a coarse size band (e.g. 'SMB', 'Enterprise'), which is why it is typed string. `employee_count` is an exact headcount, so add a new attribute `employee_count` of datatype integer on Organization, aligned with https://schema.org/numberOfEmployees. Leave Organization.size unchanged, but flag it as an ontology issue because its description 'Size of the organization' is too vague to distinguish it from headcount.\"]",
+    "rationale": "The column 'employee_count' represents the number of employees in an organization, which is a direct semantic match for the existing 'Organization.size' attribute. [escalation csv1.q2 (file): free-text answer incorporated via LLM re-decide: \"Do NOT reuse Organization.size. `size` is a different concept: a coarse size band (e.g. 'SMB', 'Enterprise'), which is why it is typed string. `employee_count` is an exact headcount, so add a new attribute `employee_count` of datatype integer on Organization, aligned with https://schema.org/numberOfEmployees. Leave Organization.size unchanged, but flag it as an ontology issue because its description 'Size of the organization' is too vague to distinguish it from headcount.\"]",
     "confidence": 1.0,
     "aligned_with": "https://schema.org/numberOfEmployees",
     "source_column": "employee_count"

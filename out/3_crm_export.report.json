@@ -311,10 +311,12 @@
       "column": "status",
       "disposition": "new_attribute",
       "target": null,
-      "rationale": "The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required.",
+      "rationale": "The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required. [vacuous_source gate: column name 'status' carries no domain meaning on its own, and adding it as a new concept would put an unexplained field in the ontology] [escalation csv3.q2 (default): kept the harness's original proposal]",
       "confidence": 0.95,
-      "decided_by": "llm",
-      "gates_fired": [],
+      "decided_by": "rule",
+      "gates_fired": [
+        "vacuous_source"
+      ],
       "escalated": false,
       "downgraded_from_escalation": false,
       "retrieval": [
@@ -407,12 +409,15 @@
       "column": "date",
       "disposition": "new_attribute",
       "target": null,
-      "rationale": "The column 'date' represents a temporal attribute associated with the Person entity (likely a contact or interaction date). None of the existing candidates are appropriate as they belong to different types (Product, Event, JobPosting) or are unrelated to the Person subject type. A new attribute is required to capture this information.",
-      "confidence": 0.9,
+      "rationale": "The column 'date' in a CRM export context typically represents the date of the last interaction or contact with the person. None of the provided candidates (Product launch, Event dates, Job posting date) are semantically appropriate for a Person entity. Therefore, a new attribute is required to capture this temporal data point. [downgraded_from_escalation: over the CSV's escalation budget]",
+      "confidence": 0.68,
       "decided_by": "llm",
-      "gates_fired": [],
+      "gates_fired": [
+        "vacuous_source",
+        "budget"
+      ],
       "escalated": false,
-      "downgraded_from_escalation": false,
+      "downgraded_from_escalation": true,
       "retrieval": [
         {
           "id": "Product.launched_on",
@@ -502,7 +507,7 @@
       "column": "notes",
       "disposition": "new_attribute",
       "target": null,
-      "rationale": "The column contains free-text notes or comments regarding interactions with the person. None of the existing attributes in the Person type capture this unstructured information, so a new attribute is required.",
+      "rationale": "The column contains unstructured qualitative information about interactions or status updates regarding the person. None of the existing attributes in the Person ontology capture this general-purpose commentary field.",
       "confidence": 0.95,
       "decided_by": "llm",
       "gates_fired": [],
@@ -626,6 +631,13 @@
       "answer": "reuse:Organization.name",
       "source": "default",
       "resulting_decision": "reuse -> Organization.name"
+    },
+    {
+      "id": "csv3.q2",
+      "question": "Column 'status' (sample values: ['active', 'churned', 'prospect']) -- the harness proposed 'new_attribute' (status). Is that right, or should it map to one of the candidates below instead?",
+      "answer": "keep_original",
+      "source": "default",
+      "resulting_decision": "new_attribute"
     }
   ],
   "ontology_issues": [],
@@ -640,7 +652,7 @@
             "full_name": "Dana Whitfield",
             "email": "dana.w@acmeindustrial.com",
             "status": "active",
-            "date": "2026-03-14",
+            "last_contacted_on": "2026-03-14",
             "notes": "renewal call went well"
           },
           "relationships": {
@@ -681,7 +693,7 @@
             "full_name": "Kenji Mori",
             "email": "k.mori@sakurafoods.jp",
             "status": "churned",
-            "date": "2025-11-02",
+            "last_contacted_on": "2025-11-02",
             "notes": "moved to competitor"
           },
           "relationships": {
@@ -722,7 +734,7 @@
             "full_name": "Priya Natarajan",
             "email": "priya@bluepeak.io",
             "status": "prospect",
-            "date": "2026-06-21",
+            "last_contacted_on": "2026-06-21",
             "notes": "met at ODSC booth"
           },
           "relationships": {
@@ -759,10 +771,10 @@
     "reused": 3,
     "new": 3,
     "excluded": 3,
-    "escalated": 1,
+    "escalated": 2,
     "llm_calls": 24,
-    "cached_calls": 24,
-    "prompt_tokens": 0,
-    "completion_tokens": 0
+    "cached_calls": 20,
+    "prompt_tokens": 5742,
+    "completion_tokens": 623
   }
 }

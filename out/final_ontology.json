@@ -93,7 +93,7 @@
           "datatype": "string"
         },
         {
-          "name": "date",
+          "name": "last_contacted_on",
           "datatype": "date"
         },
         {

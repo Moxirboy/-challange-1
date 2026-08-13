@@ -14,8 +14,8 @@ Row count: 6
 | contact_name | reuse | Person.full_name | 1.0 | llm | - | False |
 | company | reuse | Organization.name | 0.95 | rule | near_duplicate | False |
 | email | reuse | Person.email | 1.0 | llm | - | False |
-| status | new_attribute | - | 0.95 | llm | - | False |
-| date | new_attribute | - | 0.9 | llm | - | False |
+| status | new_attribute | - | 0.95 | rule | vacuous_source | False |
+| date | new_attribute | - | 0.68 | llm | vacuous_source, budget | yes (downgraded) |
 | notes | new_attribute | - | 0.95 | llm | - | False |
 | updated_at | exclude | - | 1.0 | rule | - | False |
 | Unnamed: 8 | exclude | - | 1.0 | rule | - | False |
@@ -105,20 +105,25 @@ Row count: 6
 - answer: reuse:Organization.name (source: default)
 - resulting decision: reuse -> Organization.name
 
+### csv3.q2
+- question: Column 'status' (sample values: ['active', 'churned', 'prospect']) -- the harness proposed 'new_attribute' (status). Is that right, or should it map to one of the candidates below instead?
+- answer: keep_original (source: default)
+- resulting decision: new_attribute
+
 ## Sample-row projection
 
 ### Row 1
-- `Person:1` (Person): attrs={'full_name': 'Dana Whitfield', 'email': 'dana.w@acmeindustrial.com', 'status': 'active', 'date': '2026-03-14', 'notes': 'renewal call went well'}, rels={'works_at': 'Organization:Acme Industrial Group'}
+- `Person:1` (Person): attrs={'full_name': 'Dana Whitfield', 'email': 'dana.w@acmeindustrial.com', 'status': 'active', 'last_contacted_on': '2026-03-14', 'notes': 'renewal call went well'}, rels={'works_at': 'Organization:Acme Industrial Group'}
 - `Organization:Acme Industrial Group` (Organization): attrs={'name': 'Acme Industrial Group'}, rels={}
 - skipped: [{'column': '_id', 'reason': "excluded: prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"}, {'column': 'updated_at', 'reason': "excluded: prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"}, {'column': 'Unnamed: 8', 'reason': "excluded: prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"}]
 
 ### Row 2
-- `Person:2` (Person): attrs={'full_name': 'Kenji Mori', 'email': 'k.mori@sakurafoods.jp', 'status': 'churned', 'date': '2025-11-02', 'notes': 'moved to competitor'}, rels={'works_at': 'Organization:Sakura Foods K.K.'}
+- `Person:2` (Person): attrs={'full_name': 'Kenji Mori', 'email': 'k.mori@sakurafoods.jp', 'status': 'churned', 'last_contacted_on': '2025-11-02', 'notes': 'moved to competitor'}, rels={'works_at': 'Organization:Sakura Foods K.K.'}
 - `Organization:Sakura Foods K.K.` (Organization): attrs={'name': 'Sakura Foods K.K.'}, rels={}
 - skipped: [{'column': '_id', 'reason': "excluded: prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"}, {'column': 'updated_at', 'reason': "excluded: prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"}, {'column': 'Unnamed: 8', 'reason': "excluded: prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"}]
 
 ### Row 3
-- `Person:3` (Person): attrs={'full_name': 'Priya Natarajan', 'email': 'priya@bluepeak.io', 'status': 'prospect', 'date': '2026-06-21', 'notes': 'met at ODSC booth'}, rels={'works_at': 'Organization:Bluepeak Software'}
+- `Person:3` (Person): attrs={'full_name': 'Priya Natarajan', 'email': 'priya@bluepeak.io', 'status': 'prospect', 'last_contacted_on': '2026-06-21', 'notes': 'met at ODSC booth'}, rels={'works_at': 'Organization:Bluepeak Software'}
 - `Organization:Bluepeak Software` (Organization): attrs={'name': 'Bluepeak Software'}, rels={}
 - skipped: [{'column': '_id', 'reason': "excluded: prefilter[surrogate_key]: name '_id' is id-like and every non-null value is unique (6/6)"}, {'column': 'updated_at', 'reason': "excluded: prefilter[sync_metadata]: name 'updated_at' is a known sync-metadata field and is constant across rows"}, {'column': 'Unnamed: 8', 'reason': "excluded: prefilter[empty_column]: column 'Unnamed: 8' has no non-null values"}]
 
@@ -128,8 +133,8 @@ Row count: 6
 - reused: 3
 - new: 3
 - excluded: 3
-- escalated: 1
+- escalated: 2
 - llm_calls: 24
-- cached_calls: 24
-- prompt_tokens: 0
-- completion_tokens: 0
+- cached_calls: 20
+- prompt_tokens: 5742
+- completion_tokens: 623

@@ -4,6 +4,7 @@
 ==============================================================================
 mode:            llm
 approve:         auto
+interactive:     False
 escalation budget per CSV: 2
 ontology:        fixtures/seed_ontology.json
 csvs:            ['fixtures/1_vendors.csv', 'fixtures/2_product_catalog.csv', 'fixtures/3_crm_export.csv']
@@ -32,9 +33,9 @@ Embed model:     gemini-embedding-001
   established: reuse -> Organization.founded_year confidence=1.00 gates=[]
   sector: reuse -> Organization.industry confidence=1.00 gates=[]
   hq_city: new_relationship headquartered_in confidence=0.90 gates=['near_duplicate']
-  hq_country: reuse -> Organization.headquartered_in confidence=0.95 gates=[]
+  hq_country: reuse -> Organization.headquartered_in confidence=0.95 gates=['retrieval_override']
   employee_count: reuse -> Organization.size confidence=0.95 gates=['datatype_conflict']
--- escalation budget: 2 flagged, 2 kept (budget=2), 0 downgraded --
+-- escalation budget: 3 flagged, 2 kept (budget=2), 1 downgraded --
 
 ==============================================================================
  ESCALATION — 1_vendors.csv (2 question(s))
@@ -54,7 +55,7 @@ Options:
   - exclude
   - other: <type a free-text answer>
 Default if unanswered: reuse:Place.city
-(non-interactive -> using default) [unanswered_default: reuse:Place.city]
+(--interactive not set -> using default) [unanswered_default: reuse:Place.city]
 
 --- csv1.q2 (1_vendors.csv :: employee_count) [datatype_conflict] ---
 Q: Column 'employee_count' (sample values: ['540', '1230', '88', '2100', '410']) -- the harness proposed 'reuse' -> Organization.size. Is that right, or should it map to one of the candidates below instead?
@@ -115,7 +116,7 @@ Options:
   - exclude
   - other: <type a free-text answer>
 Default if unanswered: reuse:Product.made_by
-(non-interactive -> using default) [unanswered_default: reuse:Product.made_by]
+(--interactive not set -> using default) [unanswered_default: reuse:Product.made_by]
 -- assembling patch --
 -- applying patch (mode=auto) --
   7/7 ops applied
@@ -137,15 +138,15 @@ Default if unanswered: reuse:Product.made_by
   contact_name: reuse -> Person.full_name confidence=1.00 gates=[]
   company: new_relationship -> Person.works_at confidence=0.95 gates=['near_duplicate']
   email: reuse -> Person.email confidence=1.00 gates=[]
-  status: new_attribute status confidence=0.95 gates=[]
-  date: new_attribute date confidence=0.90 gates=[]
+  status: new_attribute status confidence=0.95 gates=['vacuous_source']
+  date: new_attribute last_contacted_on confidence=0.85 gates=['vacuous_source']
   notes: new_attribute notes confidence=0.95 gates=[]
   updated_at: exclude (prefilter: sync_metadata)
   Unnamed: 8: exclude (prefilter: empty_column)
--- escalation budget: 1 flagged, 1 kept (budget=2), 0 downgraded --
+-- escalation budget: 3 flagged, 2 kept (budget=2), 1 downgraded --
 
 ==============================================================================
- ESCALATION — 3_crm_export.csv (1 question(s))
+ ESCALATION — 3_crm_export.csv (2 question(s))
 ==============================================================================
 
 --- csv3.q1 (3_crm_export.csv :: company) [near_duplicate] ---
@@ -162,7 +163,23 @@ Options:
   - exclude
   - other: <type a free-text answer>
 Default if unanswered: reuse:Organization.name
-(non-interactive -> using default) [unanswered_default: reuse:Organization.name]
+(--interactive not set -> using default) [unanswered_default: reuse:Organization.name]
+
+--- csv3.q2 (3_crm_export.csv :: status) [vacuous_source] ---
+Q: Column 'status' (sample values: ['active', 'churned', 'prospect']) -- the harness proposed 'new_attribute' (status). Is that right, or should it map to one of the candidates below instead?
+Why: The column 'status' represents the current lifecycle stage or state of the person (e.g., active, churned, prospect). None of the existing attributes in the Person or Organization types capture this concept, so a new attribute is required. [vacuous_source gate: column name 'status' carries no domain meaning on its own, and adding it as a new concept would put an unexplained field in the ontology]
+Candidates:
+  - Organization.name (score 0.40)
+  - Organization.size (score 0.40)
+  - Organization.industry (score 0.40)
+Sample values: ['active', 'churned', 'prospect']
+Options:
+  - reuse:Organization.name
+  - new:status
+  - exclude
+  - other: <type a free-text answer>
+Default if unanswered: keep_original
+(--interactive not set -> using default) [unanswered_default: keep_original]
 -- assembling patch --
 -- applying patch (mode=auto) --
   9/9 ops applied

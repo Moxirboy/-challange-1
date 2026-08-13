@@ -15,7 +15,7 @@ Row count: 8
 | established | reuse | Organization.founded_year | 1.0 | llm | - | False |
 | sector | reuse | Organization.industry | 1.0 | llm | - | False |
 | hq_city | reuse | Place.city | 0.9 | rule | near_duplicate | False |
-| hq_country | reuse | Organization.headquartered_in | 0.95 | llm | - | False |
+| hq_country | reuse | Organization.headquartered_in | 0.76 | llm | retrieval_override, budget | yes (downgraded) |
 | employee_count | new_attribute | - | 1.0 | human | datatype_conflict | False |
 
 <details><summary>vendor — retrieval candidates</summary>
@@ -152,6 +152,6 @@ Row count: 8
 - excluded: 0
 - escalated: 2
 - llm_calls: 9
-- cached_calls: 9
-- prompt_tokens: 0
-- completion_tokens: 0
+- cached_calls: 7
+- prompt_tokens: 2965
+- completion_tokens: 305
