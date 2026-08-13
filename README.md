@@ -134,7 +134,9 @@ fallback rather than blocking:
 
 | Gate | Default if unanswered | Why |
 |---|---|---|
-| `datatype_conflict`, `unknown_target` | `exclude` | the proposed target is unsafe (wrong datatype / doesn't exist); silently keeping it would apply a broken mapping |
+| `datatype_conflict`, `unknown_target`, `kind_mismatch` | `exclude` | the proposed target is unsafe (wrong datatype, doesn't exist, or is a relationship the column cannot reference); silently keeping it would apply a broken mapping |
+| `retrieval_override` | `reuse:<top retrieval candidate>` | the gate fired because the model departed from retrieval's first choice. With nobody there to endorse that departure, fall back to what retrieval ranked first |
+| `vacuous_source` | keep the model's original proposal | the column name is unanswerable on its own, which is a reason to ask, not evidence the proposal is wrong |
 | `near_duplicate` (normal, score-only match) | `reuse:<top retrieval candidate>` | the gate fired because the model's "new" proposal looked like a duplicate. Trusting the retrieval evidence beats keeping a flagged-risky guess, and a `reuse` op never mutates the ontology so it can't fail validation |
 | `near_duplicate` (fired via its lowered datatype-conflict bar) | keep the model's original proposal | here the near-duplicate candidate's own datatype conflicts with the column's (e.g. an integer column vs. a string attribute). Reusing it by default would be the silently-wrong mapping the gate exists to prevent, so the fallback is the model's own "new" guess, same as `low_confidence` below |
 | `low_confidence`, `score_margin_ambiguous`, `llm_escalate` | keep the model's original proposal | ambiguous with no strong signal either way; the model's own guess is structurally valid, just uncertain |
@@ -174,10 +176,14 @@ Five stages, run per column (stages 1–2 run once per CSV):
 4. **Deterministic gates** (`decide.py`, step C). The proposal is checked against
    a fixed table: `near_duplicate` (a "new" proposal against a strong existing
    candidate), `datatype_conflict` (a `reuse` proposal whose target has an
-   incompatible datatype), `vacuous_target` (redirect away from a placeholder
-   concept like `Person.data`), `low_confidence`, `unknown_target` (retry once,
-   then escalate), `score_margin_ambiguous` (top-2 retrieval candidates too close
-   to call). See `WRITEUP.md` for why these gates no longer trust the model's
+   incompatible datatype), `kind_mismatch` (a `reuse` onto a relationship from a
+   column that cannot hold an entity reference), `retrieval_override` (the model
+   picked a target 0.15 or more below the top candidate), `vacuous_target`
+   (redirect away from a placeholder concept like `Person.data`),
+   `vacuous_source` (a new concept from a column named `date` or `status`, which
+   says nothing on its own), `low_confidence`, `unknown_target` (retry once, then
+   escalate), `score_margin_ambiguous` (top-2 retrieval candidates too close to
+   call). See `WRITEUP.md` for why these gates no longer trust the model's
    self-reported confidence.
 5. **Escalate** (`escalate.py`). Every flagged column is ranked by `(gate
    priority, retrieval score margin, column position)`. The top

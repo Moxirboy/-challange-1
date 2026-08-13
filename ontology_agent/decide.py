@@ -47,7 +47,24 @@ SCORE_MARGIN_MIN_TOP_SCORE = 0.5  # only treat a tight margin as "ambiguous" whe
 # real signal, not noise -- two mediocre, low-scoring candidates a hair apart just means retrieval
 # found nothing good, not that there's a genuine duplicate-vs-new choice to escalate.
 LOW_CONFIDENCE_THRESHOLD = 0.55  # below this, the model itself isn't sure enough to act unsupervised
+RETRIEVAL_OVERRIDE_GAP = 0.15  # how far below the top candidate a chosen reuse target may sit before the
+# model is treated as having overruled retrieval. score_margin_ambiguous catches the opposite case (top
+# two too CLOSE to separate); this catches a wide, confident disagreement, which the fixtures showed is
+# how this model actually fails. hq_country took Organization.headquartered_in at 0.59 when Place.country
+# sat at 0.79 -- a 0.20 gap, far outside the 0.05 margin window, so nothing objected.
 DEFAULT_ESCALATION_BUDGET = 2
+
+# Source-side mirror of the ontology-side `vacuous` flag. A column whose name
+# carries no domain meaning cannot be mapped from the name alone, and the
+# values rarely disambiguate it either (3_crm_export's `date` holds valid dates
+# that could be a signup, a last-contact, or a status-change date). Names are
+# matched whole, after lowercasing, so `start_date` and `updated_at` are not hit.
+# Kept tight on purpose: over-escalation is penalised as hard as
+# under-escalation, so `notes` and `code` are NOT here. "Notes" does describe
+# its own contents; "date" does not say date of what.
+VACUOUS_COLUMN_NAMES: frozenset[str] = frozenset(
+    {"date", "time", "value", "amount", "number", "data", "type", "status", "info", "detail", "details", "field", "misc", "other", "flag"}
+)
 
 # --no-llm Step A only (see decide_subject_type): a much lower bar than
 # NEAR_DUP_SCORE_THRESHOLD because a type card's score is diluted by
@@ -61,9 +78,12 @@ SUBJECT_TYPE_MIN_SCORE = 0.05
 GATE_PRIORITY: dict[str, int] = {
     "datatype_conflict": 0,
     "unknown_target": 0,
+    "kind_mismatch": 0,  # same band as datatype_conflict: both are "this mapping is structurally broken"
     "low_confidence": 1,
+    "retrieval_override": 2,  # same band as near_duplicate: both are "the model disagrees with retrieval"
     "near_duplicate": 2,
     "score_margin_ambiguous": 3,  # weakest objective signal of the three -- yields to a real near-dup hit
+    "vacuous_source": 3,  # weak: it flags an unanswerable name, not a demonstrated conflict
 }
 
 
@@ -537,6 +557,65 @@ def _run_gates(
             if compat == 0.0:
                 decision.gates_fired.append("datatype_conflict")
                 escalation_reasons.append("datatype_conflict")
+
+    # --- kind_mismatch ------------------------------------------------------
+    # A reuse target is either an attribute (literal-valued) or a relationship
+    # (entity-valued). Reusing a relationship for a column of plain literals
+    # produces a mapping that cannot be materialised: the value is not an
+    # entity reference. datatype_conflict cannot see this, because it only
+    # resolves attribute datatypes and returns None for a relationship.
+    # Deliberately narrow: it keys on datatype, NOT on profile.entity_like.
+    # entity_like requires uniqueness <= 0.8, so on small fixtures a real
+    # entity column reads as non-entity (2_product_catalog's `manufacturer` is
+    # 6 distinct in 7 rows = 0.86) while a repeating literal column reads as
+    # entity-like (`hq_country` = 0.62). Keying on it produced a false positive
+    # on the one relationship reuse in the fixtures that is actually correct.
+    # A non-string or free-text column, by contrast, can never be an entity
+    # reference, so this version has no false positives to trade away.
+    if decision.disposition == "reuse" and decision.target and "." in decision.target:
+        type_name, concept_name = decision.target.split(".", 1)
+        target_is_relationship = ontology.rel(type_name, concept_name) is not None
+        cannot_be_a_reference = profile.inferred_datatype != "string" or profile.freetext
+        if target_is_relationship and cannot_be_a_reference:
+            decision.gates_fired.append("kind_mismatch")
+            decision.rationale += (
+                f" [kind_mismatch gate: '{decision.target}' is a relationship (entity-valued) but column "
+                f"'{profile.name}' holds literals (inferred {profile.inferred_datatype}, freetext="
+                f"{profile.freetext}, samples {profile.samples[:3]}); reusing it would emit an "
+                f"unresolvable entity reference]"
+            )
+            escalation_reasons.append("kind_mismatch")
+
+    # --- retrieval_override -------------------------------------------------
+    # The model was shown ranked candidates and picked one well below the top.
+    # A confident disagreement with retrieval is worth a human look; note this
+    # is the mirror image of score_margin_ambiguous, which fires when the top
+    # two are too close rather than when the chosen one is too far down.
+    if decision.disposition == "reuse" and decision.target and len(decision.candidates) >= 2:
+        top = decision.candidates[0]
+        chosen = next((c for c in decision.candidates if c.card.id == decision.target), None)
+        if chosen is not None and chosen.card.id != top.card.id:
+            gap = top.score - chosen.score
+            if gap >= RETRIEVAL_OVERRIDE_GAP:
+                decision.gates_fired.append("retrieval_override")
+                decision.rationale += (
+                    f" [retrieval_override gate: model chose {chosen.card.id} ({chosen.score:.2f}) over "
+                    f"top-ranked {top.card.id} ({top.score:.2f}), a gap of {gap:.2f} >= {RETRIEVAL_OVERRIDE_GAP}]"
+                )
+                escalation_reasons.append("retrieval_override")
+
+    # --- vacuous_source -----------------------------------------------------
+    # Mirror of vacuous_target, on the CSV side. A column named `date` or
+    # `status` cannot be mapped from its name, and its values usually do not
+    # settle it either. Only fires on a "new" proposal: a confident reuse onto
+    # an existing concept means the meaning was recovered from somewhere else.
+    if decision.disposition in {"new_attribute", "new_relationship"} and profile.name.strip().lower() in VACUOUS_COLUMN_NAMES:
+        decision.gates_fired.append("vacuous_source")
+        decision.rationale += (
+            f" [vacuous_source gate: column name '{profile.name}' carries no domain meaning on its own, "
+            f"and adding it as a new concept would put an unexplained field in the ontology]"
+        )
+        escalation_reasons.append("vacuous_source")
 
     # --- vacuous_target (forces new_attribute; never escalates) -----------
     if decision.disposition == "reuse" and decision.target and _target_is_vacuous(decision.target, index):

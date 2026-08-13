@@ -36,11 +36,22 @@ _EXCLUDE = "exclude"
 # fallback only (no candidates retrieved); build_question() overrides it
 # with a dynamic "reuse:<top candidate>" whenever candidates exist -- see
 # the comment at that call site for why keep_original is unsafe there.
+#
+# kind_mismatch joins the _EXCLUDE group: the proposed mapping cannot be
+# materialised at all, so keeping it is strictly worse than dropping the
+# column. retrieval_override falls back to retrieval's own top candidate,
+# because the gate fired precisely because the model departed from it and
+# nobody arrived to say the model was right. vacuous_source keeps the
+# model's proposal: an unexplained column name is a reason to ask, not
+# evidence that the proposal is wrong.
 _DEFAULT_BY_GATE: dict[str, str] = {
     "near_duplicate": _KEEP_ORIGINAL,
     "low_confidence": _KEEP_ORIGINAL,
     "datatype_conflict": _EXCLUDE,
     "unknown_target": _EXCLUDE,
+    "kind_mismatch": _EXCLUDE,
+    "retrieval_override": _KEEP_ORIGINAL,
+    "vacuous_source": _KEEP_ORIGINAL,
     "llm_escalate": _KEEP_ORIGINAL,
     "score_margin_ambiguous": _KEEP_ORIGINAL,
 }
@@ -122,6 +133,11 @@ def build_question(decision: Decision, profile: ColumnProfile, csv_index: int, c
         # verified this would happen on the offline `--no-llm` quickstart.
         # So that case falls through to the same safe default as
         # datatype_conflict itself: exclude, not reuse.
+        default = f"reuse:{top_candidates[0].card.id}"
+    elif gate == "retrieval_override" and top_candidates:
+        # Same logic, one step further: this gate fires because the model
+        # picked a target well below retrieval's top hit. With nobody there to
+        # endorse that departure, fall back to what retrieval ranked first.
         default = f"reuse:{top_candidates[0].card.id}"
     else:
         default = _DEFAULT_BY_GATE.get(gate, _KEEP_ORIGINAL)
