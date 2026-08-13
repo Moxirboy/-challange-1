@@ -138,10 +138,15 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--out", required=True, help="output directory for patches/reports/transcript")
     parser.add_argument("--answers", default=None, help="optional JSON file of {question_id: answer}")
     parser.add_argument("--escalation-budget", type=int, default=DEFAULT_ESCALATION_BUDGET, help="max escalations kept per CSV")
-    # Default is the conservative "none" (emit-only): the tool never mutates
-    # the ontology unless the caller opts in, even though the demo command
-    # in DESIGN.md's verification step passes --approve auto explicitly.
-    parser.add_argument("--approve", choices=["auto", "interactive", "none"], default="none", help="patch application mode")
+    # Default is "auto". The brief requires accepted patches to be applied to
+    # the in-memory ontology before the next CSV, since later files depend on
+    # earlier decisions; "none" silently breaks that for multi-CSV runs. The
+    # mutation is in-memory only, so "auto" is still safe by default.
+    parser.add_argument("--approve", choices=["auto", "interactive", "none"], default="auto", help="patch application mode")
+    # Escalation prompting is opt-in and explicit, so a run's questions never
+    # depend on invisible TTY state. Without this flag, unanswered questions
+    # take their documented per-gate default and the run stays reproducible.
+    parser.add_argument("--interactive", action="store_true", help="ask escalation questions on stdin instead of taking gate defaults")
     parser.add_argument("--no-llm", action="store_true", help="run the deterministic heuristic decider; no network, no API key")
     parser.add_argument("--cache-dir", default=".cache", help="LLM/embedding disk cache directory")
     return parser.parse_args(argv)
@@ -158,6 +163,7 @@ def _run(args: argparse.Namespace) -> None:
     _banner("ONTOLOGY AGENT RUN")
     print(f"mode:            {'no-llm (heuristic decider)' if args.no_llm else 'llm'}")
     print(f"approve:         {args.approve}")
+    print(f"interactive:     {args.interactive}")
     print(f"escalation budget per CSV: {args.escalation_budget}")
     print(f"ontology:        {args.ontology}")
     print(f"csvs:            {args.csv}")
@@ -234,13 +240,13 @@ def _run(args: argparse.Namespace) -> None:
                 for qn, d in enumerate(final_escalated, start=1)
             ]
             answers_data = load_answers_file(args.answers)
-            answers = ask(questions, answers_file=args.answers, interactive=True)
+            answers = ask(questions, answers_file=args.answers, interactive=args.interactive)
 
             columns_order = [d.column for d in decisions]
             decisions_by_col = {d.column: d for d in decisions}
             for q in questions:
                 answer = answers[q.id]
-                source = classify_source(q.id, answers_data, interactive=True)
+                source = classify_source(q.id, answers_data, interactive=args.interactive)
                 original = decisions_by_col[q.column]
                 resolved = incorporate(
                     q,

@@ -99,16 +99,28 @@ python -m ontology_agent.run
   --answers PATH           optional JSON file of {question_id: answer}, e.g. answers.json
   --escalation-budget N    max escalations kept per CSV (default 2)
   --approve {auto,interactive,none}
-                           patch application mode (default none: emit-only,
-                           never mutates the ontology unless you opt in)
+                           patch application mode (default auto)
+  --interactive            ask escalation questions on stdin instead of taking
+                           gate defaults (default off)
   --no-llm                 run the deterministic heuristic decider; no network, no key
   --cache-dir DIR          LLM/embedding disk cache directory (default .cache)
 ```
 
-`--approve auto` applies every validated op non-interactively, which is what
-produced the committed `out/`. `--approve interactive` confirms each op.
-`--approve none`, the default, only emits the patch and report and mutates
-nothing. `--no-llm` swaps the LLM proposal step for a documented lexical heuristic
+`--approve auto` is the default and applies every validated op
+non-interactively, which is what produced the committed `out/`. It is the default
+because the brief requires accepted patches to reach the in-memory ontology before
+the next CSV, and `--approve none` silently breaks that for a multi-CSV run: CSV 2
+and CSV 3 then retrieve against the untouched seed ontology and decide
+differently. `--approve interactive` confirms each op on stdin. `--approve none`
+emits the patch and report and mutates nothing.
+
+`--interactive` controls a separate thing: whether a human is asked the
+escalation questions. It is off by default, so a run's questions never depend on
+invisible TTY state and the committed output stays reproducible. With it off, or
+on but with no TTY attached, each question takes its documented gate default and
+the run prints which of those two cases applied.
+
+`--no-llm` swaps the LLM proposal step for a documented lexical heuristic
 (top retrieval candidate ≥ 0.62 → reuse, else → new attribute). Every layer
 downstream runs identically either way: prefilter, retrieval, gates, escalation,
 patch validation, reports. So it exercises the whole pipeline except the LLM's
@@ -116,8 +128,9 @@ judgment calls, with no network and no spend.
 
 ### Escalation defaults
 
-A question can go unanswered: not in the `--answers` file, and no interactive TTY
-attached. Each gate then has a documented, safe fallback rather than blocking:
+A question can go unanswered: not in the `--answers` file, and no human to ask
+(`--interactive` off, or on with no TTY). Each gate then has a documented, safe
+fallback rather than blocking:
 
 | Gate | Default if unanswered | Why |
 |---|---|---|

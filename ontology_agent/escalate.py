@@ -220,7 +220,13 @@ def ask(questions: list[Question], answers_file: str | None = None, interactive:
             resolved[q.id] = q.default
             continue
 
-        print(f"(non-interactive -> using default) [unanswered_default: {q.default}]")
+        # Name the reason. "Not asked" has three distinct causes and silently
+        # collapsing them into one message is what makes this look like a bug.
+        if not interactive:
+            why = "--interactive not set"
+        else:
+            why = "--interactive set but stdin is not a TTY"
+        print(f"({why} -> using default) [unanswered_default: {q.default}]")
         resolved[q.id] = q.default
 
     return resolved
