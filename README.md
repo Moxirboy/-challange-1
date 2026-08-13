@@ -4,6 +4,7 @@
 .
 ├── README.md              ← you are here: how to run it, and where everything is
 ├── DESIGN.md              ← implementation spec
+├── PHASES.md              ← end-to-end walkthrough, with real output per phase
 ├── EVAL_PLAN.md           ← eval plan (deliverable 5)
 ├── WRITEUP.md             ← ≤1-page design write-up (deliverable 4)
 ├── answers.json           ← recorded human answers, replayed into escalations
